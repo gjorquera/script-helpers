@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+([ -f "$(dirname $0)/.helpers" ] || curl -o "$(dirname $0)/.helpers" -L https://git.io/vrHQm) \
+  && . "$(dirname $0)/.helpers"
+
+cd $(dirname $0)/..
+
+title "Checking system dependencies..."
+
+check "which bats" "brew install bats"
