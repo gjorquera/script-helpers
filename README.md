@@ -8,7 +8,11 @@ If you don't know what project scripts are, please read
 
 ## Example
 
-This is the `script/update` script for one of my projects:
+This is how it looks then a project script is executed:
+
+![screencast](images/screencast.gif)
+
+This is the source file of the project script:
 
 ```bash
 #!/usr/bin/env bash
@@ -48,22 +52,6 @@ title "Setting up redis..."
 check "which redis-server" "brew install redis"
 check "redis-cli ping | grep PONG" "redis-server /opt/boxen/homebrew/etc/redis.conf"
 ```
-
-```bash
-$ time ./script/update # without caches
-  ...
-  ./script/update 5.91s user 1.84s system 95% cpu 8.147 total
-
-$ time ./script/update # with caches
-  ...
-  ./script/update 0.08s user 0.07s system 93% cpu 0.165 total
-```
-
-And the example output is the following:
-
-![failure](images/failure.png)
-
-![success](images/success.png)
 
 ## Helpers
 
