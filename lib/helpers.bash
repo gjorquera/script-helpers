@@ -2,7 +2,7 @@
 
 title() { echo -e "\033[0;34m\n${1}\n\033[0m"; }
 
-check() {
+ensure() {
   echo -n "$1... "
   if (exec &>/dev/null; eval $1); then
     echo -e "\033[0;32m✓ done\033[0m"

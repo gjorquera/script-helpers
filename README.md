@@ -1,7 +1,7 @@
 # Script Helpers
 
-A simple helper script that can sourced into your project scripts to
-enable easy checks and caches.
+A helper file that can sourced into your project scripts to to DRY them
+up.
 
 If you don't know what project scripts are, please read
 [scripts-to-rule-them-all](https://github.com/github/scripts-to-rule-them-all).
@@ -23,57 +23,57 @@ RAILS_ENV=${RAILS_ENV:-development}
 
 title "Checking system dependencies..."
 
-check "which heroku" "brew install heroku-toolbelt"
-check "which identify" "brew install imagemagick"
-check "which phantomjs" "brew install phantomjs"
+ensure "which heroku" "brew install heroku-toolbelt"
+ensure "which identify" "brew install imagemagick"
+ensure "which phantomjs" "brew install phantomjs"
 
 title "Setting up pow..."
 
-check "which pow" "brew install pow"
-check "test -d $HOME/.pow" "brew info pow"
-check "echo 5000 > $HOME/.pow/kipict"
+ensure "which pow" "brew install pow"
+ensure "test -d $HOME/.pow" "brew info pow"
+ensure "echo 5000 > $HOME/.pow/kipict"
 
 title "Setting up ruby..."
 
-check "which ruby" "brew install rbenv"
-check "which bundle" "gem install bundler"
-check "cached Gemfile || bundle install"
+ensure "which ruby" "brew install rbenv"
+ensure "which bundle" "gem install bundler"
+ensure "cached Gemfile || bundle install"
 
 title "Setting up postgres..."
 
-check "which psql" "brew install postgresql"
-check "echo '\\l' | psql postgres" "postgres -D /opt/boxen/homebrew/var/postgres"
-check "echo '\\l' | psql postgres | grep kipict_$RAILS_ENV" \
+ensure "which psql" "brew install postgresql"
+ensure "echo '\\l' | psql postgres" "postgres -D /opt/boxen/homebrew/var/postgres"
+ensure "echo '\\l' | psql postgres | grep kipict_$RAILS_ENV" \
   "heroku local:run rake db:create"
-check "cached db/migrate || heroku local:run rake db:migrate"
+ensure "cached db/migrate || heroku local:run rake db:migrate"
 
 title "Setting up redis..."
 
-check "which redis-server" "brew install redis"
-check "redis-cli ping | grep PONG" "redis-server /opt/boxen/homebrew/etc/redis.conf"
+ensure "which redis-server" "brew install redis"
+ensure "redis-cli ping | grep PONG" "redis-server /opt/boxen/homebrew/etc/redis.conf"
 ```
 
 ## Helpers
 
 ### `title`
 
-Used to group several `check`s under the same concept:
+Used to group several `ensure`s under the same concept:
 
 ```bash
 title "Checking system dependencies..."
 ```
 
-### `check`
+### `ensure`
 
-Checks if a given command is successful and prints it's status along
-with a short message on error.
+Makes sure that a given command is successful and prints it's status
+along with a short message on error.
 
 ```bash
-check "which identify"
+ensure "which identify"
 ```
 
 ```bash
-check "test -d $HOME/.pow" "brew info pow"
+ensure "test -d $HOME/.pow" "brew info pow"
 ```
 
 ### `cached`
@@ -81,16 +81,16 @@ check "test -d $HOME/.pow" "brew info pow"
 Caches the contents of a file or directory, returning whether the
 existing cache was updated or not.
 
-It should be used inside a `check` to allow faster checks, and avoid
-running time consuming commands if the file or directory used to run
-that command hasn't changed.
+It should be used inside a `ensure` to avoid running time consuming
+commands if the file or directory used to run that command hasn't
+changed.
 
 ```bash
-check "cached Gemfile || bundle install"
+ensure "cached Gemfile || bundle install"
 ```
 
 ```bash
-check "cached db/migrate || heroku local:run rake db:migrate"
+ensure "cached db/migrate || heroku local:run rake db:migrate"
 ```
 
 ## Installation
