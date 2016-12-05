@@ -100,13 +100,9 @@ using `bash` as the interpreter):
 
 ```bash
 #!/usr/bin/env bash
-cd "$(dirname $0)"
+cd "$(dirname $0)/.."
 [ -f ".h" ] || curl -s -o ".h" -L https://git.io/v14Zc; . ".h"
 ```
-
-It's important to add the `cd "$(dirname $0)"` at the beginning because
-the helpers and cache files are installed in the current working
-directory.
 
 Don't forget to add `.cache.*` and `.h` to your `.gitignore` file:
 
@@ -120,5 +116,5 @@ echo ".h" >> .gitignore
 If you want to update the helpers file, just remove the cached helpers:
 
 ```bash
-rm -f path/to/script/dirname/.h
+rm -f path/to/project/.h
 ```
