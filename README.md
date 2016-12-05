@@ -1,4 +1,4 @@
-# Scripts To Rule Them All Helpers
+# Script Helpers
 
 A simple helper script that can sourced into your project scripts to
 enable easy checks and caches.
@@ -17,7 +17,7 @@ This is the source file of the project script:
 ```bash
 #!/usr/bin/env bash
 cd "$(dirname $0)/.."
-[ -f ".h" ] || curl -o ".h" -L https://git.io/vrHby; . ".h"
+[ -f ".h" ] || curl -s -o ".h" -L https://git.io/v14Zc; . ".h"
 
 RAILS_ENV=${RAILS_ENV:-development}
 
@@ -95,13 +95,13 @@ check "cached db/migrate || heroku local:run rake db:migrate"
 
 ## Installation
 
-Just include the following lines at the top of your script (make sure
-you're using `bash` as the interpreter):
+Include the following lines at the top of your script (make sure you're
+using `bash` as the interpreter):
 
 ```bash
 #!/usr/bin/env bash
 cd "$(dirname $0)"
-[ -f ".h" ] || curl -o ".h" -L https://git.io/vrHby; . ".h"
+[ -f ".h" ] || curl -s -o ".h" -L https://git.io/v14Zc; . ".h"
 ```
 
 It's important to add the `cd "$(dirname $0)"` at the beginning because
@@ -120,5 +120,5 @@ echo ".h" >> .gitignore
 If you want to update the helpers file, just remove the cached helpers:
 
 ```bash
-rm -f path/to/script/dirname/.helpers
+rm -f path/to/script/dirname/.h
 ```
